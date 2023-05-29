@@ -32,16 +32,38 @@ def convertAyatToVideo(jsonData, name, surah, ayat):
     mainAudio1 = mainAudio1.fx(volumex, 0.3)
 
     margin_int = 800
-    font_size = 70
+    font_size_bn = 70
     font_size_ar = 100
-    if len(jsonData["wbw"]) > 8:
-        margin_int = 1000
-        font_size = 50
+    font_size_en = 70
+
+    if len(jsonData["english"]) > 80 & len(jsonData["english"]) <= 150:
+        font_size_en = 50
+    elif len(jsonData["english"]) > 150:
+        font_size_en = 35
+    else:
+        font_size_en = 70
+
+    if len(jsonData["arabic"]) > 80 & len(jsonData["arabic"]) <= 150:
         font_size_ar = 70
+    elif len(jsonData["arabic"]) > 150:
+        font_size_ar = 50
+    else:
+        font_size_ar = 100
+
+    if len(jsonData["bengali"]) > 80 & len(jsonData["bengali"]) <= 150:
+        font_size_bn = 50
+    elif len(jsonData["bengali"]) > 150:
+        font_size_bn = 25
+    else:
+        font_size_bn = 70
+
+
+    if len(jsonData["wbw"]) > 8 & len(jsonData["wbw"]) <= 15:
+        margin_int = 900
+    elif len(jsonData["wbw"]) > 15:
+        margin_int = 1100
     else:
         margin_int = 700
-        font_size = 70
-        font_size_ar = 100
 
     clipArray = []
     audioArry = []
@@ -66,14 +88,14 @@ def convertAyatToVideo(jsonData, name, surah, ayat):
     # new_txt_Clip = txt_clip_new.set_audio(audio)
     clipArray.append(txt_clip_new)
 
-    txt_clip2 = TextClip(jsonData["bengali"], font='Bangla.ttc', fontsize=font_size, color='white', align='center',
+    txt_clip2 = TextClip(jsonData["bengali"], font='Bangla.ttc', fontsize=font_size_bn, color='white', align='center',
                          size=screensize, method='caption')
     txt_clip2 = txt_clip2.set_position('center').set_duration(audio.duration + 1).set_start(0)
     txt_clip2 = vfx.fadein(txt_clip2, 1)
     txt_clip2 = vfx.fadeout(txt_clip2, 0.5)
     clipArray.append(txt_clip2)
 
-    txt_clip3 = TextClip(jsonData["english"], fontsize=font_size, color='white', align='center', size=screensize,
+    txt_clip3 = TextClip(jsonData["english"], fontsize=font_size_en, color='white', align='center', size=screensize,
                          method='caption')
     txt_clip3 = txt_clip3.set_position('center').set_duration(audio.duration + 1).set_start(0)
     txt_clip3_new = txt_clip3.fx(vfx.margin, top=margin_int, opacity=0)
